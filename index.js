@@ -7,7 +7,25 @@ const modalOverlay = document.getElementById('order-modal');
 const closeModalButton = document.querySelector('.buttonCloseModal');
 const modalButton = document.querySelector('.submit-button');
 const modalWindowText = document.querySelector('.modal-text');
+const orderTableBody = document.querySelector('.order-table-body');
 const drinkForms = ['напиток', 'напитка', 'напитков'];
+const milkLabels = {
+  usual: 'обычное',
+  'no-fat': 'обезжиренное',
+  soy: 'соевое',
+  coconut: 'кокосовое',
+};
+const optionLabels = {
+  'whipped cream': 'взбитые сливки',
+  marshmallow: 'зефирки',
+  chocolate: 'шоколад',
+  cinnamon: 'корица',
+};
+const beverageLabels = {
+  espresso: 'Эспрессо',
+  capuccino: 'Капучино',
+  cacao: 'Какао',
+};
 
 function getBeveragesCount() {
   return document.querySelectorAll('.beverage').length;
@@ -51,6 +69,10 @@ function removeBeverage(button) {
 
   beverage.remove();
   updateBeverageTitles();
+
+  document.querySelectorAll('.beverage').forEach((item, index) => {
+    setBeverageFieldNames(item, index + 1);
+  });
 }
 
 function bindRemoveButton(button) {
@@ -72,6 +94,36 @@ function addBeverage() {
   updateBeverageTitles();
 }
 
+function getSelectedRadioValue(beverage) {
+  const selectedRadio = beverage.querySelector('input[type="radio"]:checked');
+  return selectedRadio ? milkLabels[selectedRadio.value] : '';
+}
+
+function getSelectedCheckboxValues(beverage) {
+  return [...beverage.querySelectorAll('input[type="checkbox"]:checked')]
+    .map((input) => optionLabels[input.value])
+    .join(', ');
+}
+
+function buildOrderTable() {
+  orderTableBody.innerHTML = '';
+
+  document.querySelectorAll('.beverage').forEach((beverage) => {
+    const drink = beverage.querySelector('select').value;
+    const milk = getSelectedRadioValue(beverage);
+    const options = getSelectedCheckboxValues(beverage);
+    const row = document.createElement('tr');
+
+    row.innerHTML = `
+      <td>${beverageLabels[drink] ?? drink}</td>
+      <td>${milk}</td>
+      <td>${options}</td>
+    `;
+
+    orderTableBody.appendChild(row);
+  });
+}
+
 bindBeverageControls(beverageTemplate);
 setBeverageFieldNames(beverageTemplate, 1);
 updateBeverageTitles();
@@ -80,6 +132,7 @@ addButton.addEventListener('click', addBeverage);
 modalButton.addEventListener('click', () => {
   const count = getBeveragesCount();
   modalWindowText.textContent = `Вы заказали ${count} ${getWord(count, drinkForms)}`;
+  buildOrderTable();
   modalOverlay.classList.add('active');
 });
 

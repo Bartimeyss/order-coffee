@@ -59,6 +59,7 @@
     border: 2px solid orange;
     border-radius: 5px;
 }
+
 .modalOverlay {
     position: fixed;
     inset: 0;
@@ -89,4 +90,18 @@
     background: none;
     font-size: 24px;
     cursor: pointer;
+}
+
+.order-table {
+    width: 100%;
+    margin-top: 16px;
+    border-collapse: collapse;
+}
+
+.order-table th,
+.order-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+    vertical-align: top;
 }
