@@ -19,3 +19,15 @@ function addBeverage() {
 
 addButton.addEventListener('click', addBeverage);
 updateBeverageTitles();
+const form = document.querySelector('form');
+const modalOverlay = document.getElementById('order-modal');
+const closeModalButton = document.querySelector('.buttonCloseModal');
+
+form.addEventListener('submit', (event) => {
+    event.preventDefault();
+    modalOverlay.classList.add('active');
+});
+
+closeModalButton.addEventListener('click', () => {
+    modalOverlay.classList.remove('active');
+});
