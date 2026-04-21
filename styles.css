@@ -43,6 +43,39 @@
     display: block;
 }
 
+.extra-note-row {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+}
+
+.extra-note-field {
+    flex: 1;
+    max-width: 360px;
+}
+
+.extra-note-field .label-text {
+    width: auto;
+    margin-bottom: 6px;
+    display: block;
+}
+
+.comment {
+    width: 100%;
+    min-height: 84px;
+    resize: vertical;
+}
+
+.comment-preview {
+    flex: 1;
+    min-height: 84px;
+    margin: 22px 0 0;
+    padding: 8px 10px;
+    border: 1px dashed #cfcfcf;
+    background: #fafafa;
+    word-break: break-word;
+}
+
 .add-button {
     border: none;
     background: none;
@@ -90,6 +123,22 @@
     background: none;
     font-size: 24px;
     cursor: pointer;
+}
+
+@media (max-width: 700px) {
+    .extra-note-row {
+        flex-direction: column;
+    }
+
+    .extra-note-field {
+        max-width: none;
+        width: 100%;
+    }
+
+    .comment-preview {
+        width: 100%;
+        margin-top: 0;
+    }
 }
 
 .order-table {

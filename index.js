@@ -8,6 +8,8 @@ const closeModalButton = document.querySelector('.buttonCloseModal');
 const modalButton = document.querySelector('.submit-button');
 const modalWindowText = document.querySelector('.modal-text');
 const orderTableBody = document.querySelector('.order-table-body');
+
+
 const drinkForms = ['напиток', 'напитка', 'напитков'];
 const milkLabels = {
   usual: 'обычное',
@@ -26,6 +28,31 @@ const beverageLabels = {
   capuccino: 'Капучино',
   cacao: 'Какао',
 };
+const urgentPattern = /(очень\s+нужно|срочно|быстрее|побыстрее|скорее|поскорее)/gi;
+
+
+function highlightUrgentWords(value) {
+  return value.replace(urgentPattern, '<b>$1</b>');
+}
+
+function bindCommentPreview(beverage) {
+  const commentField = beverage.querySelector('.comment');
+  const preview = beverage.querySelector('.comment-preview');
+
+  if (!commentField || !preview) {
+    return;
+  }
+
+  const renderPreview = () => {
+    preview.innerHTML = highlightUrgentWords(commentField.value);
+  };
+
+  commentField.addEventListener('input', renderPreview);
+  renderPreview();
+}
+
+
+
 
 function getBeveragesCount() {
   return document.querySelectorAll('.beverage').length;
@@ -82,6 +109,7 @@ function bindRemoveButton(button) {
 function bindBeverageControls(beverage) {
   const removeButton = beverage.querySelector('.remove-button');
   bindRemoveButton(removeButton);
+  bindCommentPreview(beverage);
 }
 
 function addBeverage() {
